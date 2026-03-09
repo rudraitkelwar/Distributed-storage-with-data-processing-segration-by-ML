@@ -25,6 +25,12 @@ Uniform query execution wastes resources. A simple `SELECT` by ID should not com
 | Server 5 | Light query executor — lookups, inserts, small updates |
 | Server 6 | ML router + Kafka broker — classifies queries, dispatches to right cluster |
 
+
+
+
+<img width="2027" height="1115" alt="Block_diagram_101" src="https://github.com/user-attachments/assets/dd6bd9bd-18dc-4e9e-8250-559d8f185a91" />
+
+
 ---
 
 ## How It Works
