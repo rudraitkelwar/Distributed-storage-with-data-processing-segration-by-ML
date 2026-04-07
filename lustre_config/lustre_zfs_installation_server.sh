@@ -68,6 +68,12 @@ cd ~/lustre/zfs
 rpm -ivh --nodeps libnvpair3-*.rpm libuutil3-*.rpm libzfs6-*.rpm libzpool6-*.rpm
 rpm -ivh --nodeps zfs-2.3.2-1.el8.x86_64.rpm python3-pyzfs-*.rpm
 
+cd ~/lustre/zfs
+
+# Install zfs-dkms to build ZFS kernel module for the current kernel
+rpm -ivh --nodeps zfs-dkms-2.3.2-1.el8.noarch.rpm
+
+
 # Load ZFS module
 modprobe zfs
 zfs version   # verify
@@ -89,3 +95,11 @@ modprobe lustre
 mount -t lustre tank1/zd0 /mnt/mdt      # MGS+MDT
 mount -t lustre tank2/zd16 /mnt/ost     # OST
 lctl dl                                  # check Lustre status
+sudo modprobe lnet
+sudo modprobe lustre
+sudo modprobe osd-zfs
+sudo lctl dl
+
+
+sudo mount -t lustre tank1/zd0 /mnt/mdt
+sudo mount -t lustre tank2/zd16 /mnt/ost
