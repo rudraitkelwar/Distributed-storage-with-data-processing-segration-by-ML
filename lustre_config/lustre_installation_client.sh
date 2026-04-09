@@ -40,7 +40,7 @@ wget https://downloads.whamcloud.com/public/lustre/latest-release/el8.10/client/
 wget https://downloads.whamcloud.com/public/lustre/latest-release/el8.10/client/RPMS/x86_64/lustre-client-2.15.8-1.el8.x86_64.rpm
 
 
-
+mkdir -p /mnt/lustre
 
 yum localinstall kmod-lustre-client-*.rpm lustre-client-*.rpm
 

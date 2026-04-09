@@ -68,6 +68,12 @@ cd ~/lustre/zfs
 rpm -ivh --nodeps libnvpair3-*.rpm libuutil3-*.rpm libzfs6-*.rpm libzpool6-*.rpm
 rpm -ivh --nodeps zfs-2.3.2-1.el8.x86_64.rpm python3-pyzfs-*.rpm
 
+cd ~/lustre/zfs
+
+# Install zfs-dkms to build ZFS kernel module for the current kernel
+rpm -ivh --nodeps zfs-dkms-2.3.2-1.el8.noarch.rpm
+
+
 # Load ZFS module
 modprobe zfs
 zfs version   # verify
@@ -89,3 +95,33 @@ modprobe lustre
 mount -t lustre tank1/zd0 /mnt/mdt      # MGS+MDT
 mount -t lustre tank2/zd16 /mnt/ost     # OST
 lctl dl                                  # check Lustre status
+sudo modprobe lnet
+sudo modprobe lustre
+sudo modprobe osd-zfs
+sudo lctl dl
+
+zpool create -O canmount=off -o ashift=12 -f tank1 /dev/nvme1n1 /dev/nvme2n1
+
+zpool create -O canmount=off -o ashift=12 -f tank2 /dev/nvme3n1 /dev/nvme4n1
+
+
+mkfs.lustre --reformat --mdt --mgs --backfstype=zfs --fsname=lustre --mgsnode=172.31.13.12 --index=0 tank1/zd0
+
+mkfs.lustre --reformat --ost --backfstype=zfs --fsname=lustre --mgsnode=172.31.13.12 --index=1 tank2/zd16
+
+mkdir -p /mnt/mdt /mnt/ost
+
+sudo mount -t lustre tank1/zd0 /mnt/mdt
+sudo mount -t lustre tank2/zd16 /mnt/ost
+
+sudo lctl dl
+
+#ZFS Pool (tank1)
+#    └── ZFS dataset (tank1/zd0)
+#            └── mkfs.lustre formats it as MDT/MGS
+#                    └── mount -t lustre → /mnt/mdt
+
+#ZFS Pool (tank2)
+#    └── ZFS dataset (tank2/zd16)
+#            └── mkfs.lustre formats it as OST
+#                    └── mount -t lustre → /mnt/ost

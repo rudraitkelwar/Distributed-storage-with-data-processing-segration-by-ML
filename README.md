@@ -57,3 +57,7 @@ Uniform query execution wastes resources. A simple `SELECT` by ID should not com
 ## Why This Architecture
 
 Most distributed storage projects stop at getting data to persist. This one goes further — separating the **data plane** (NVMe-oF + ZFS + Lustre), **compute plane** (PostgreSQL clusters), and **control plane** (ML + Kafka) so each layer scales and fails independently. The shared storage model avoids the data sync complexity that plagues multi-primary setups.
+
+## AWS free tier 
+AlmaLinux OS 8.10.20251028 x86_64
+ami-000c0df4918b9eb8c
