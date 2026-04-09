@@ -84,3 +84,8 @@ yum localinstall lustre-2.15.8-1.el8.x86_64.rpm \
   kmod-lustre-osd-zfs-2.15.8-1.el8.x86_64.rpm
 
 modprobe lustre
+
+
+mount -t lustre tank1/zd0 /mnt/mdt      # MGS+MDT
+mount -t lustre tank2/zd16 /mnt/ost     # OST
+lctl dl                                  # check Lustre status

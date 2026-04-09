@@ -45,4 +45,6 @@ wget https://downloads.whamcloud.com/public/lustre/latest-release/el8.10/client/
 yum localinstall kmod-lustre-client-*.rpm lustre-client-*.rpm
 
 
-mount -t lustre 172.31.15.47@tcp:/lustre /mnt/lustre
+mount -t lustre 172.31.13.12@tcp:/lustre /mnt/lustre
+
+echo "172.31.13.12@tcp:/lustre  /mnt/lustre  lustre  defaults,_netdev  0 0" | sudo tee -a /etc/fstab
