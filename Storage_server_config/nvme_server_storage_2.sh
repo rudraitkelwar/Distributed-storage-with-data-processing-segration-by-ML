@@ -35,7 +35,7 @@ echo tcp|sudo tee -a addr_trtype > /dev/null
 echo 4420|sudo tee -a addr_trsvcid > /dev/null
 echo ipv4|sudo tee -a addr_adrfam > /dev/null
 cd ~
-sudo ln -s /sys/kernel/config/nvmet/subsystems/nvmet-test1/ /sys/kernel/config/nvmet/ports/1/subsystems/nvmet-test3
-sudo ln -s /sys/kernel/config/nvmet/subsystems/nvmet-test2/ /sys/kernel/config/nvmet/ports/1/subsystems/nvmet-test4
+sudo ln -s /sys/kernel/config/nvmet/subsystems/nvmet-test3/ /sys/kernel/config/nvmet/ports/1/subsystems/nvmet-test3
+sudo ln -s /sys/kernel/config/nvmet/subsystems/nvmet-test4/ /sys/kernel/config/nvmet/ports/1/subsystems/nvmet-test4
 dmesg |grep "nvmet_tcp"
 sudo systemctl stop firewalld
