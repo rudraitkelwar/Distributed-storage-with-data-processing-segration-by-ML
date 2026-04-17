@@ -89,7 +89,15 @@ Uniform query execution wastes resources. A simple `SELECT` by ID should not com
         │                         │
         │  queries.lance          │
         │  (SAME file seen by     │
-        │   ALL nodes)            │
+        │   ALL nodes)            |
+        |                         |
+        |Shared Storage           |
+        |by openZFS               |
+        ||---------------------|  |
+        ||      Zpool          |  |
+        │|NVMe-oF | NVMe-oF|   |  |
+        ||Cache-> L2ARC, ZIL   |  |
+        ||_____________________|  |
         └─────────────────────────┘
                ▲
                │
