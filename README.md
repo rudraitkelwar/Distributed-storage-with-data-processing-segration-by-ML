@@ -136,6 +136,7 @@ Uniform query execution wastes resources. A simple `SELECT` by ID should not com
 - **LustreFS** — parallel distributed filesystem for concurrent multi-node access
 - **Apache Kafka** — decoupled query buffering and backpressure handling
 - **PostgreSQL** — query execution layer (compatible with PolarDB read/write split) *Might change a bit
+- LanceDB 
 - **ML Classifier** — trained on real execution metrics, retrained continuously
 
 ---
