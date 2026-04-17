@@ -33,7 +33,7 @@ Uniform query execution wastes resources. A simple `SELECT` by ID should not com
 
 ---
 
-
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                        CLIENT / APP                             │
 │                    (sends SQL queries)                          │
@@ -114,7 +114,7 @@ Uniform query execution wastes resources. A simple `SELECT` by ID should not com
                |                                   |
             n number of nodes can be added here 
 
-
+```
 
 ---
 
