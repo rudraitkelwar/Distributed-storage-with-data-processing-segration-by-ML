@@ -1,18 +1,39 @@
 import pandas as pd
 import lancedb
 
-# lance db location
-DB_URI = "/mnt/lustre/lancedb"   # <-- adjust if needed
+DB_URI = "/mnt/lustre/lancedb"
 
 db = lancedb.connect(DB_URI)
 
-# Load the OpenFlights airports-extended file ,   It is comma-separated and includes a header row.
-df = pd.read_csv(f"data/airports-extended.dat")
+# 1) Define the correct column names for airports-extended.dat
+cols = [
+    "id",
+    "name",
+    "city",
+    "country",
+    "iata",
+    "icao",
+    "latitude",
+    "longitude",
+    "altitude",
+    "tz_offset",
+    "dst",
+    "tz_name",
+    "type",
+    "source",
+]
+
+# 2) Read the file with NO header, using our column names
+df = pd.read_csv(
+    "data/airports-extended.dat",  # or the correct path to your file
+    header=None,
+    names=cols,
+)
 
 print("Columns:", df.columns.tolist())
 print("Row count:", len(df))
 
-# Optional: keep only a few useful columns and rename them
+# 3) Keep and rename a subset of useful columns
 keep_cols = {
     "id": "airport_id",
     "name": "name",
@@ -23,9 +44,9 @@ keep_cols = {
     "latitude": "lat",
     "longitude": "lon",
 }
+
 df = df[list(keep_cols.keys())].rename(columns=keep_cols)
 
-# 3) Create or append to a LanceDB table
 table_name = "airports"
 
 if table_name in db.table_names():
