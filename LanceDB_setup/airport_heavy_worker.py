@@ -4,7 +4,7 @@ import lancedb
 import pyarrow.compute as pc  # still imported but not strictly needed now
 
 KAFKA_BROKER = "172.31.40.22:9092"
-REQ_TOPIC    = "airport-queries"
+REQ_TOPIC    = "airport-queries-heavy"
 RES_TOPIC    = "airport-results"
 
 db    = lancedb.connect("/mnt/lustre/lancedb")
