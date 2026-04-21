@@ -1,10 +1,10 @@
+# LanceDB_setup/airport_worker_light.py (on node-light)
 from kafka import KafkaConsumer, KafkaProducer
 import json, time
 import lancedb
-import pyarrow.compute as pc  # still imported but not strictly needed now
 
 KAFKA_BROKER = "172.31.40.22:9092"
-REQ_TOPIC    = "airport-queries"
+REQ_TOPIC    = "airport-queries-light"
 RES_TOPIC    = "airport-results"
 
 db    = lancedb.connect("/mnt/lustre/lancedb")
@@ -25,7 +25,7 @@ producer = KafkaProducer(
     acks="all",
 )
 
-print("[AIRPORT-WORKER] ready, waiting for queries...")
+print("[AIRPORT-WORKER-LIGHT] ready, waiting for queries...")
 
 for msg in consumer:
     req   = msg.value
@@ -34,38 +34,27 @@ for msg in consumer:
     p     = req.get("payload", {})
 
     try:
-        # Load a reasonable slice of the table
-        df = table.to_pandas()  # or table.to_pandas(limit=5000) if large
+        df = table.to_pandas()
 
+        # You can choose to support different query types on light,
+        # or maybe only a subset (e.g., by_country) – your choice.
         if qtype == "by_country":
             country = p["country"]
-            df = df[df["country"] == country].head(10)
+            df = df[df["country"] == country].head(5)   # maybe smaller sample
 
         elif qtype == "by_city":
             city = p["city"]
-            df = df[df["city"] == city].head(10)
-
-        elif qtype == "by_bbox":
-            lat_min = p["lat_min"]
-            lat_max = p["lat_max"]
-            lon_min = p["lon_min"]
-            lon_max = p["lon_max"]
-            df = df[
-                (df["lat"] >= lat_min) &
-                (df["lat"] <= lat_max) &
-                (df["lon"] >= lon_min) &
-                (df["lon"] <= lon_max)
-            ].head(20)
+            df = df[df["city"] == city].head(5)
 
         else:
             df = df.head(5)
 
         rows = df.to_dict(orient="records")
-        res  = {"id": qid, "status": "ok", "type": qtype, "rows": rows, "ts": time.time()}
+        res  = {"id": qid, "status": "ok", "type": qtype, "rows": rows, "ts": time.time(), "node": "light"}
 
     except Exception as e:
-        res = {"id": qid, "status": "error", "error": str(e), "ts": time.time()}
+        res = {"id": qid, "status": "error", "error": str(e), "ts": time.time(), "node": "light"}
 
     producer.send(RES_TOPIC, value=res)
     producer.flush()
-    print(f"[AIRPORT-WORKER] answered qid={qid[:8]} type={qtype} rows={len(res.get('rows', []))}")
+    print(f"[AIRPORT-WORKER-LIGHT] answered qid={qid[:8]} type={qtype} rows={len(res.get('rows', []))}")
