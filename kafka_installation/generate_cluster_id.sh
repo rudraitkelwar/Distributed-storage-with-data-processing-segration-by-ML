@@ -27,4 +27,13 @@ EOF
   -t $KAFKA_CLUSTER_ID \
   -c /opt/kafka/config/kraft/server.properties
 
-/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/kraft/server.properties
+#/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/kraft/server.properties
+
+# Start the Kafka server
+cd /opt/kafka
+sudo bin/kafka-server-start.sh config/server.properties
+
+# Stop the Kafka server
+cd /opt/kafka
+sudo bin/kafka-server-stop.sh
+
