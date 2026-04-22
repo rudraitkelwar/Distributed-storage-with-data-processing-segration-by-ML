@@ -27,7 +27,7 @@ Uniform query execution wastes resources. A simple `SELECT` by ID should not com
 
 Note: This implementation was developed and tested without direct GPU access. The following results and assumptions are based on a hypothetical GPU-enabled environment.
 
-<img width="2027" height="1115" alt="Block_diagram_101" src="https://github.com/user-attachments/assets/dd6bd9bd-18dc-4e9e-8250-559d8f185a91" />
+<img width="4823" height="6823" alt="architecture_diagram_refined" src="https://github.com/user-attachments/assets/b4018d6e-73d5-4b47-8c38-4740f1c5f51b" />
 
 
 ---
